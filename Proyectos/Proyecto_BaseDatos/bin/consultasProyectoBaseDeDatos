@@ -1,0 +1,24 @@
+Cosnculta A :
+    select * from (proyecto.personas AS x NATURAL JOIN (select dni from proyecto.toman EXCEPT (select p.dni from proyecto.toman p , proyecto.toman pro where (p.dni=pro.dni) and (p.codigo!=pro.codigo)))AS y );
+
+
+Consulta C:
+
+   select * from proyecto.personas 
+	NATURAL JOIN 
+	(select dni from proyecto.instructores EXCEPT select instructores.dni from (proyecto.clases natural join proyecto.instructores))as x;
+
+
+consulta B :
+    select codigo , SUM(costo) as costo_total_clases
+from 
+	proyecto.clases 
+	natural join (select costo,codigo from proyecto.materiales)as x
+group by codigo;
+
+
+--esta consulta me da todos los datos de los instructores que estan a cargo de al menos una clase 
+select * from proyecto.personas AS x natural join (select dni from proyecto.clases) AS y;
+
+--Esta consulta me da las cantidad de alumnos que tiene cada clase
+select codigo as codigo_curso, count(dni) as cant_alumnos from proyecto.toman GROUP BY codigo;
